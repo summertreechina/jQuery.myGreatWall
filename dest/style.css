@@ -1,0 +1,87 @@
+/* ==============================
+	       基础公共样式 
+===============================*/
+html {
+	font-size: 62.5%;
+	color: #222;
+}
+::selection {
+	background-color: #b3d4fc;
+	text-shadow: none;
+}
+div:before {
+	display: table;
+	content: " ";
+}
+div:after {
+	display: table;
+	content: " ";
+	clear: both;
+}
+div {
+	min-height: 20px;
+}
+
+
+/* ==============================
+	       自定义样式 
+===============================*/
+@media screen and (min-width: 1900px) {
+	.container {
+		width: 1800px;
+	}
+	#imgs-box {
+		width: 100%;
+	}
+}
+#imgs-box {
+	width: 100%;
+	margin: 80px 0;
+	text-align: center;
+}
+#imgs-box ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+#imgs-box ul li {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	border: 1px solid #333;
+}
+#vertical-imgs {
+	background-color: #369;
+	min-height: 20px;
+}
+#horizontal-imgs {
+	background-color: #699;
+	min-height: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
