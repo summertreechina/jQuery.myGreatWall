@@ -4,7 +4,6 @@
 			this.img_box                = img_box
 			this.img_box.append(`<h1>我的照片墙啊</h1>
 									<ul id ="vertical-imgs"></ul>
-									<h1>我的照片墙啊</h1>
 									<ul id="square-imgs"></ul>
 									<ul id="horizontal-imgs"></ul>`)
 			this.vertical_box           = $('#vertical-imgs')
@@ -48,13 +47,13 @@
 
 			if (scale < 0.8) {
 				cate = 'v'
-				this.vertical_box.append( `<li class="vertical-img" style="margin: ${img_margin}"><canvas id=${cvs_id}></canvas></li>` )
+				this.vertical_box.append( `<a class="vertical-img" style="margin: ${img_margin}" href="${img.src}" target="_blank"><canvas id=${cvs_id}></canvas></a>` )
 			} else if (scale > 1.2) {
 				cate = 'h'
-				this.horizontal_box.append( `<li class="horizontal-img" style="margin: ${img_margin}"><canvas id=${cvs_id}></canvas></li>` )
+				this.horizontal_box.append( `<a class="horizontal-img" style="margin: ${img_margin}" href="${img.src}" target="_blank"><canvas id=${cvs_id}></canvas></a>` )
 			} else {
 				cate = 's'
-				this.square_box.append( `<li class="square-img" style="margin: ${img_margin}"><canvas id=${cvs_id}></canvas></li>` )
+				this.square_box.append( `<a class="square-img" style="margin: ${img_margin}" href="${img.src}" target="_blank"><canvas id=${cvs_id}></canvas></a>` )
 			}
 
 			this.draw_img_by_canvas(img, cate)
@@ -74,17 +73,17 @@
 				case 'v':
 					canvas.width = norm_short_size
 					canvas.height = norm_long_size
+					img.raw_w = img.width
+					img.raw_h = img.height
 
 					if (scale < 0.67) {
-						img.raw_w = img.width
 						img.width = norm_short_size
-						img.height = img.height / (img.raw_w  / norm_short_size)
+						img.height = img.raw_h / (img.raw_w  / norm_short_size)
 						sx = 0
 						sy = (canvas.height - img.height) / 2
 					} else {
-						img.raw_h = img.height
 						img.height = norm_long_size
-						img.width = img.width / (img.raw_h / norm_long_size)
+						img.width = img.raw_w / (img.raw_h / norm_long_size)
 						sx = (canvas.width - img.width) / 2
 						sy = 0
 					}
@@ -129,16 +128,16 @@
 
 			context.drawImage(img, sx, sy, img.width, img.height);
 
-			// context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
-				// img：规定要使用的图像、画布或视频。
-				// sx：可选。画布中被绘制的区域的左上角的点的 x 值。
-				// sy：可选。同上的 y 值。
-				// swidth：可选。画布中被绘制的区域的宽度。
-				// sheight：可选。同上的高度。
-				// x：图像中，被选取的区域的左上角的点的 x 值。
-				// y：同上的 y 值。
-				// width：可选。图像中，被截取的区域的宽度。
-				// height：可选。同上的高度。
+				// context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
+					// img：规定要使用的图像、画布或视频。
+					// sx：可选。画布中被绘制的区域的左上角的点的 x 值。
+					// sy：可选。同上的 y 值。
+					// swidth：可选。画布中被绘制的区域的宽度。
+					// sheight：可选。同上的高度。
+					// x：图像中，被选取的区域的左上角的点的 x 值。
+					// y：同上的 y 值。
+					// width：可选。图像中，被截取的区域的宽度。
+					// height：可选。同上的高度。
 		}
 
 		// 确定照片基准宽度--每行显示几张照片
@@ -323,6 +322,5 @@
 	]
 	let img_box = $('#imgs-box')
 	let greatWall = new myGreatWall(img_box, json2)
-	// greatWall.cons_page()
-	// console.log(greatWall.v_wrap)
+
 }
