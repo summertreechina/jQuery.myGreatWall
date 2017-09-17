@@ -2,26 +2,21 @@
 	class myGreatWall {
 		constructor(img_box, json_data) {
 			this.img_box                = img_box
-			this.img_box.append(`<ul id ="vertical-imgs"></ul><h1>我的照片墙啊</h1></ul><ul id="square-imgs"></ul><ul id="horizontal-imgs">`)
+			this.img_box.append(`<h1>我的照片墙啊</h1>
+									<ul id ="vertical-imgs"></ul>
+									<h1>我的照片墙啊</h1>
+									<ul id="square-imgs"></ul>
+									<ul id="horizontal-imgs"></ul>`)
 			this.vertical_box           = $('#vertical-imgs')
 			this.horizontal_box         = $('#horizontal-imgs')
 			this.square_box             = $('#square-imgs')
 			this.json                   = json_data
 				// 进度条使用
 			this.img_num = this.json.length
+			this.img_margin
 
 			this.get_img_norm_size()
 			this.cons_page()
-		}
-
-		// 确定照片基准宽度--每行显示几张照片
-		get_img_norm_size() {
-			let total_width = this.img_box.width()
-			let norm_short_size = this.xround((total_width / 5.8), 2)
-			let norm_long_size = this.xround((norm_short_size * 1.5), 2)
-			let img_margin = Math.floor((total_width - norm_short_size * 5) / 10)
-
-			console.log(total_width, norm_short_size, norm_long_size, img_margin)
 		}
 
 			// 组织页面 
@@ -53,51 +48,86 @@
 					let raw_height = img.height
 					let scale = this.xround((raw_width / raw_height), 2)
 
-					this.json[i].scale = scale
-					this.json[i].raw_width = raw_width
-					this.json[i].raw_height = raw_height
-					this.json[i].id = `img_${i}`
+					img.id = i
+					img.scale = scale
 
-					this.cate_img(this.json[i])
+					this.cate_img(img, raw_width, raw_height, scale)
 				}
 			}
 
 		}
 
-		// 对完成下载的照片分类
-		cate_img(imgObj) {
-			let id = imgObj.id
-			let scale = imgObj.scale
-			let raw_width = imgObj.raw_width
-			let raw_height = imgObj.raw_height
+		// 对完成下载的照片分类，并创建dom结构
+		cate_img(img) {
+			let cvs_id = `cvs_${img.id}`
+			let scale = img.scale
+			let img_margin = `${this.img_margin}px`
 			let cate;
 
 			if (scale < 0.8) {
-				this.vertical_box.append( `<li class="vertical-img">${scale}小于0.8<canvas id=${id}></canvas></li>` )
+				cate = 'v'
+				this.vertical_box.append( `<li class="vertical-img" style="margin: ${img_margin}"><canvas id=${cvs_id}></canvas></li>` )
 			} else if (scale > 1.2) {
-				this.horizontal_box.append( `<li class="horizontal-img">${scale}大于1.2<canvas id=${id}></canvas></li>` )
+				cate = 'h'
+				this.horizontal_box.append( `<li class="horizontal-img" style="margin: ${img_margin}"><canvas id=${cvs_id}></canvas></li>` )
 			} else {
-				this.square_box.append( `<li class="square-img">${scale}<canvas id=${id}></canvas></li>` )
+				cate = 's'
+				this.square_box.append( `<li class="square-img" style="margin: ${img_margin}"><canvas id=${cvs_id}></canvas></li>` )
 			}
 
-			this.draw_img_by_canvas()
+			this.draw_img_by_canvas(img, cate)
 		}
 
 		// 用canvas描绘一张照片
-		draw_img_by_canvas() {
+		draw_img_by_canvas(img, cate) {
+			let canvas = document.getElementById(`cvs_${img.id}`)
+			let context = canvas.getContext('2d')
 
+			switch (cate) {
+				case 'v':
+					canvas.width = this.norm_short_size
+					canvas.height = this.norm_long_size
 
+					img.width = canvas.width
+					img.height = canvas.height
+					break;
+				case 'h':
+					canvas.width = this.norm_long_size / 1.16
+					canvas.height = this.norm_short_size / 1.16
+					break;
+				case 's':
+					canvas.width = canvas.height = this.norm_short_size
+					break;
+			}
+
+			context.drawImage(img, 0, 0 );
 
 			// context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
-			// img：规定要使用的图像、画布或视频。
-			// sx：可选。画布中被绘制的区域的左上角的点的 x 值。
-			// sy：可选。同上的 y 值。
-			// swidth：可选。画布中被绘制的区域的宽度。
-			// sheight：可选。同上的高度。
-			// x：图像中，被选取的区域的左上角的点的 x 值。
-			// y：同上的 y 值。
-			// width：可选。图像中，被截取的区域的宽度。
-			// height：可选。同上的高度。
+				// img：规定要使用的图像、画布或视频。
+				// sx：可选。画布中被绘制的区域的左上角的点的 x 值。
+				// sy：可选。同上的 y 值。
+				// swidth：可选。画布中被绘制的区域的宽度。
+				// sheight：可选。同上的高度。
+				// x：图像中，被选取的区域的左上角的点的 x 值。
+				// y：同上的 y 值。
+				// width：可选。图像中，被截取的区域的宽度。
+				// height：可选。同上的高度。
+		}
+
+		// 确定照片基准宽度--每行显示几张照片
+		get_img_norm_size() {
+			let total_width = this.img_box.width()
+			let norm_short_size = Math.floor(total_width / 5.8)
+			let norm_long_size = Math.floor(norm_short_size * 1.5)
+			let img_margin = Math.floor((total_width - norm_short_size * 5) / 12)
+
+			this.norm_short_size = norm_short_size
+			this.norm_long_size = norm_long_size
+			this.img_margin = img_margin
+			console.log(total_width, norm_short_size, norm_long_size, img_margin)
+
+			// return {orm_short_size, norm_long_size, mg_margin}
+			// 要完善的事情：1、当页面宽度发生变化时重新渲染照片； 2、当页面宽度过于窄的时候，每行显示多少照片；3、根据将来的效果确定是否给横版的照片单独设置margin
 		}
 
 
@@ -264,7 +294,7 @@
 		// {"title":"本地照片", "url":""},
 	]
 	let img_box = $('#imgs-box')
-	let greatWall = new myGreatWall(img_box, json2)
+	let greatWall = new myGreatWall(img_box, json)
 	// greatWall.cons_page()
 	// console.log(greatWall.v_wrap)
 }
