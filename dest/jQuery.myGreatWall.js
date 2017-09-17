@@ -13,29 +13,11 @@
 			this.json                   = json_data
 				// 进度条使用
 			this.img_num = this.json.length
+
 			this.img_margin
 
 			this.get_img_norm_size()
-			this.cons_page()
-		}
-
-			// 组织页面 
-		cons_page() {
 			this.load_imgs()
-			// for (let i in this.json) {
-			// 	let img = new Image()
-			// 	img.src = this.json[i].url
-			// 	img.onload = (e) => {
-			// 		let raw_width = img.width
-			// 		let raw_height = img.height
-			// 		let scale = this.xround((raw_width / raw_height), 2)
-
-			// 		this.json[i].scale = scale
-			// 		this.json[i].raw_width = raw_width
-			// 		this.json[i].raw_height = raw_height
-			// 	}
-			// }
-			
 		}
 
 			// 照片载入
@@ -51,7 +33,7 @@
 					img.id = i
 					img.scale = scale
 
-					this.cate_img(img, raw_width, raw_height, scale)
+					this.cate_img(img)
 				}
 			}
 
@@ -82,25 +64,70 @@
 		draw_img_by_canvas(img, cate) {
 			let canvas = document.getElementById(`cvs_${img.id}`)
 			let context = canvas.getContext('2d')
+			let norm_short_size = this.norm_short_size
+			let norm_long_size = this.norm_long_size
+			let scale = img.scale
+			let sx
+			let sy
 
 			switch (cate) {
 				case 'v':
-					canvas.width = this.norm_short_size
-					canvas.height = this.norm_long_size
+					canvas.width = norm_short_size
+					canvas.height = norm_long_size
 
-					img.width = canvas.width
-					img.height = canvas.height
+					if (scale < 0.67) {
+						img.raw_w = img.width
+						img.width = norm_short_size
+						img.height = img.height / (img.raw_w  / norm_short_size)
+						sx = 0
+						sy = (canvas.height - img.height) / 2
+					} else {
+						img.raw_h = img.height
+						img.height = norm_long_size
+						img.width = img.width / (img.raw_h / norm_long_size)
+						sx = (canvas.width - img.width) / 2
+						sy = 0
+					}
 					break;
 				case 'h':
-					canvas.width = this.norm_long_size / 1.16
-					canvas.height = this.norm_short_size / 1.16
+					canvas.width = norm_long_size / 1.16
+					canvas.height = norm_short_size / 1.16
+					img.raw_w = img.width
+					img.raw_h = img.height
+					
+					if (scale <= 1.5) {
+						img.width = canvas.width
+						img.height = img.raw_h / (img.raw_w / canvas.width)
+						sx = 0
+						sy = (canvas.height - img.height) / 2
+					} else {
+						img.height = canvas.height
+						img.width = img.raw_w / (img.raw_h / canvas.height)
+						sy = 0
+						sx = (canvas.width - img.width) / 2
+
+					}
 					break;
 				case 's':
-					canvas.width = canvas.height = this.norm_short_size
+					canvas.width = canvas.height = norm_short_size
+					img.raw_w = img.width
+					img.raw_h = img.height
+
+					if (scale <= 1) {
+						img.width = canvas.width
+						img.height = img.raw_h / (img.raw_w / canvas.width)
+						sx = 0
+						sy = (canvas.width - img.height) / 2
+					} else {
+						img.height = canvas.width
+						img.width = img.raw_w / (img.raw_h / canvas.width)
+						sx = (canvas.width - img.width) / 2
+						sy = 0
+					}
 					break;
 			}
 
-			context.drawImage(img, 0, 0 );
+			context.drawImage(img, sx, sy, img.width, img.height);
 
 			// context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
 				// img：规定要使用的图像、画布或视频。
@@ -124,10 +151,11 @@
 			this.norm_short_size = norm_short_size
 			this.norm_long_size = norm_long_size
 			this.img_margin = img_margin
-			console.log(total_width, norm_short_size, norm_long_size, img_margin)
 
-			// return {orm_short_size, norm_long_size, mg_margin}
-			// 要完善的事情：1、当页面宽度发生变化时重新渲染照片； 2、当页面宽度过于窄的时候，每行显示多少照片；3、根据将来的效果确定是否给横版的照片单独设置margin
+			// 要完善的事情：
+				// 1、当页面宽度发生变化时重新渲染照片；
+				// 2、当页面宽度过于窄的时候，每行显示多少照片；
+				// 3、根据将来的效果确定是否给横版的照片单独设置margin
 		}
 
 
@@ -294,7 +322,7 @@
 		// {"title":"本地照片", "url":""},
 	]
 	let img_box = $('#imgs-box')
-	let greatWall = new myGreatWall(img_box, json)
+	let greatWall = new myGreatWall(img_box, json2)
 	// greatWall.cons_page()
 	// console.log(greatWall.v_wrap)
 }
