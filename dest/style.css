@@ -46,10 +46,16 @@ div {
 }
 #imgs-box ul li {
 	display: inline-block;
-	margin: 0;
+	margin: 25px 20px;
 	padding: 0;
 	list-style: none;
 	border: 1px solid #333;
+	background: url(http://img14.3lian.com/201510/21/af398caa308168a2f8ce706dabc71934.gif) center center no-repeat;
+	background-size: 30% auto;
+	background-color: #fff;
+}
+#imgs-box canvas {
+	// background: url(http://upload.chinaz.com/weixin/2015/0519/WrmjibF7YZWhB7PEm4rjpWlibAMw0JlCU8WvkN6Sg6MtXiaric9GialcYFsogQ4RqEouJeCZQb3yyzIHARs00zKmTSA.gif) center center no-repeat;
 }
 #vertical-imgs {
 	background-color: #369;
@@ -59,7 +65,10 @@ div {
 	background-color: #699;
 	min-height: 20px;
 }
-
+#square-imgs {
+	background-color: #963;
+	min-height: 20px;
+}
 
 
 
