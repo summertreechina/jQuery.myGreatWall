@@ -10,12 +10,14 @@
 			this.horizontal_box         = $('#horizontal-imgs')
 			this.square_box             = $('#square-imgs')
 			this.json                   = json_data
-				// 进度条使用
-			this.img_num = this.json.length
-
 			this.img_margin
 
+				// 进度条数据
+			this.img_num = this.json.length
+			this.complete_img = 0
+
 			this.get_img_norm_size()
+			this.progressbar = this.init_progress()
 			this.load_imgs()
 		}
 
@@ -127,6 +129,8 @@
 			}
 
 			context.drawImage(img, sx, sy, img.width, img.height);
+			this.complete_img++
+			this.progressbar.reach(this.complete_img)
 
 				// context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
 					// img：规定要使用的图像、画布或视频。
@@ -155,8 +159,23 @@
 				// 1、当页面宽度发生变化时重新渲染照片；
 				// 2、当页面宽度过于窄的时候，每行显示多少照片；
 				// 3、根据将来的效果确定是否给横版的照片单独设置margin
+				// 4、添加简单的进度条 http://www.jq22.com/demo/NumberProgressBar-master/ http://www.jq22.com/jquery-info428
+				// 5、是否开启多线程支持
 		}
 
+		init_progress() {
+			$('#img-total-box').text(this.img_num)
+			let options = {
+				duration: 10000,
+				style: 'step',
+				min: 0,
+				max: this.img_num,
+				current: this.complete_img
+			}
+			let progressbar = $('.number-pb').NumberProgressBar(options);
+			$('#img-total-box').text(this.img_num)
+			return progressbar;
+		}
 
 		xround(num, bit) {
 			return Math.round(num * Math.pow(10, bit)) / Math.pow(10, bit)
@@ -321,6 +340,6 @@
 		// {"title":"本地照片", "url":""},
 	]
 	let img_box = $('#imgs-box')
-	let greatWall = new myGreatWall(img_box, json2)
+	greatWall = new myGreatWall(img_box, json)
 
 }
