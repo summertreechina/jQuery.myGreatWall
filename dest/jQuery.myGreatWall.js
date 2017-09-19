@@ -132,6 +132,7 @@
 			this.complete_img++
 			this.progressbar.reach(this.complete_img)
 
+
 				// context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
 					// img：规定要使用的图像、画布或视频。
 					// sx：可选。画布中被绘制的区域的左上角的点的 x 值。
@@ -166,7 +167,7 @@
 		init_progress() {
 			$('#img-total-box').text(this.img_num)
 			let options = {
-				duration: 10000,
+				duration: 500,
 				style: 'step',
 				min: 0,
 				max: this.img_num,
@@ -340,6 +341,6 @@
 		// {"title":"本地照片", "url":""},
 	]
 	let img_box = $('#imgs-box')
-	greatWall = new myGreatWall(img_box, json)
+	greatWall = new myGreatWall(img_box, json2)
 
 }
