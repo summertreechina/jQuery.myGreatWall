@@ -84,81 +84,19 @@ canvas {
 	       进度条样式 
 ===============================*/
 
-#step {
-	max-width: 400px;
-	min-width: 200px;
-	// background-color: rgba(51, 102, 153, 0.25);
+#progress-bar {
 	position: fixed;
-	right: 1em;
 	bottom: 0;
-	color: #176785;
-	font-family: 'Quicksand', sans-serif;
+	height: 14px;
+	width: 100%;
+	margin-bottom: 0;
 }
-.control {
-	display: inline-block;
-	width: 10%;
-	cursor: pointer;
-	padding: 10px;
-	border: 2px solid #FFD7AC;
-	border-radius: 5px;
-	margin: 10px;
+.progress-bar-light {
+	background-color: #FFD7AC;
+	color: brown;
+	font-size: 14px;
+	line-height: 14px;
 }
-#step article {
-	// background-color: rgba(7, 102, 153, 0.55);
-	background-color: #fff;
-	position: relative;
-	padding: 0 5em 0 2em;
-	border: 1px solid #BED194;
-	margin-bottom: 1em;
-	border-radius: 5px;
-}
-#step article:hover {
-	border-color: #499989;
-}
-#step article .title {
-	position: absolute;
-	left: 10px;
-	top: -0px;
-	padding: 0 5px;
-	background-color: #fff;
-	margin: 0;
-}
-.number-pb {
-	position: relative;
-	height: 3px;
-	background-color: #ddd;
-	margin: 40px 0;
-}
-
-.number-pb .number-pb-shown {
-	position: absolute;
-	background-color: #176785;
-	background-image: linear-gradient(to right, #176785, #499989);
-	top: -1px;
-	left: 0;
-	height: 5px;
-	box-shadow: 0 0 3px 0 #499989;
-}
-
-.number-pb .number-pb-num {
-	position: absolute;
-	background-color: #fff;
-	left: 0;
-	top: -0.6em;
-	padding: 0 5px;
-	min-width: 20px;
-}
-
-.number-pb-shown.dream {
-	background-image: linear-gradient(to right, #0e153a, #1d2b64, #f8cdda);
-	box-shadow:         0 0 3px 0 #f8cdda;
-}
-
-.number-pb-shown.sun {
-	background-image: linear-gradient(to right, #0f1b58, #e0a681, #e5e9bf);
-	box-shadow:         0 0 3px 0 #e5e9bf;
-}
-
 
 
 

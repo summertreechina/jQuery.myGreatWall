@@ -17,7 +17,7 @@
 			this.complete_img = 0
 
 			this.get_img_norm_size()
-			this.progressbar = this.init_progress()
+			this.progress = this.init_progress()
 			this.load_imgs()
 		}
 
@@ -129,10 +129,6 @@
 			}
 
 			context.drawImage(img, sx, sy, img.width, img.height);
-			this.complete_img++
-			this.progressbar.reach(this.complete_img)
-
-
 				// context.drawImage(img,sx,sy,swidth,sheight,x,y,width,height);
 					// img：规定要使用的图像、画布或视频。
 					// sx：可选。画布中被绘制的区域的左上角的点的 x 值。
@@ -143,6 +139,16 @@
 					// y：同上的 y 值。
 					// width：可选。图像中，被截取的区域的宽度。
 					// height：可选。同上的高度。
+
+			this.complete_img++
+			let progress_num = Math.ceil(this.complete_img / this.img_num * 100) + '%'
+			this.progress_val.attr('style', `width: ${progress_num}`).html(progress_num)
+			if (progress_num == '100%') {
+				setTimeout(() => {
+					this.progress_bar.addClass('animated fadeOutUp')
+				}, 6000)
+			}
+			
 		}
 
 		// 确定照片基准宽度--每行显示几张照片
@@ -165,17 +171,8 @@
 		}
 
 		init_progress() {
-			$('#img-total-box').text(this.img_num)
-			let options = {
-				duration: 500,
-				style: 'step',
-				min: 0,
-				max: this.img_num,
-				current: this.complete_img
-			}
-			let progressbar = $('.number-pb').NumberProgressBar(options);
-			$('#img-total-box').text(this.img_num)
-			return progressbar;
+			this.progress_bar = $('#progress-bar')
+			this.progress_val = $('#progress-bar .progress-bar')
 		}
 
 		xround(num, bit) {
@@ -183,6 +180,8 @@
 		}
 		
 	}
+
+
 
 
 
@@ -340,7 +339,61 @@
 		// {"title":"本地照片", "url":""},
 		// {"title":"本地照片", "url":""},
 	]
+	let json3 = []
+	for (let i = 1; i < 45; i++) {
+		json3.push({"title":"周妍希", "url":`http://mtl.ttsqgs.com/images/img/11831/${i}.jpg`})
+	}
+	let json4 = []
+	for (let i = 1; i < 45; i++) {
+		json4.push({"title":"周妍希", "url":`http://mtl.ttsqgs.com/images/img/11345/${i}.jpg`})
+	}
+	let json5 = []
+	for (let i = 1; i < 75; i++) {
+		json5.push({"title":"李丽莎", "url":`http://mtl.ttsqgs.com/images/img/11696/${i}.jpg`})
+	}
+	let json6 = []
+	for (let i = 1; i < 43; i++) {
+		json6.push({"title":"丽塔", "url":`http://mtl.ttsqgs.com/images/img/11721/${i}.jpg`})
+	}
+	let json7 = []
+	for (let i = 1; i < 19; i++) {
+		json7.push({"title":"文静", "url":`http://mtl.ttsqgs.com/images/img/8767/${i}.jpg`})
+	}
+	let json8 = []
+	for (let i = 1; i < 22; i++) {
+		json8.push({"title":"文静", "url":`http://mtl.ttsqgs.com/images/img/8751/${i}.jpg`})
+	}
+	let json9 = []
+	for (let i = 1; i < 98; i++) {
+		json9.push({"title":"沈梦瑶", "url":`http://mtl.ttsqgs.com/images/img/7902/${i}.jpg`})
+	}
+	let json10 = []
+	for (let i = 1; i < 62; i++) {
+		json10.push({"title":"丝袜", "url":`http://mtl.ttsqgs.com/images/img/8488/${i}.jpg`})
+	}
+	let json11 = []
+	for (let i = 1; i < 67; i++) {
+		json11.push({"title":"COCO", "url":`http://mtl.ttsqgs.com/images/img/8017/${i}.jpg`})
+	}
+	let json12 = []
+	for (let i = 1; i < 26; i++) {
+		json12.push({"title":"金圣雪", "url":`http://mtl.ttsqgs.com/images/img/10459/${i}.jpg`})
+	}
+	let json13 = []
+	for (let i = 1; i < 19; i++) {
+		json13.push({"title":"金圣雪", "url":`http://mtl.ttsqgs.com/images/img/10604/${i}.jpg`})
+	}
+	let json14 = []
+	for (let i = 1; i < 48; i++) {
+		json14.push({"title":"嫚予 《履上足如霜》", "url":`http://mtl.ttsqgs.com/images/img/10395/${i}.jpg`})
+	}
+	let json15 = []
+	for (let i = 1; i < 28; i++) {
+		json15.push({"title":"嫚予 《履上足如霜》", "url":`http://mtl.ttsqgs.com/images/img/10239/${i}.jpg`})
+		json15.push({"title":"嫚予 - 晨曦粉玫瑰", "url":`http://mtl.ttsqgs.com/images/img/10196/${i}.jpg`})
+	}
+
 	let img_box = $('#imgs-box')
-	greatWall = new myGreatWall(img_box, json2)
+	greatWall = new myGreatWall(img_box, json11)
 
 }
